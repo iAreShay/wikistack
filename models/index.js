@@ -38,14 +38,17 @@ const User = db.define('users', {
     }
 })
 
-module.exports = {db, Page, User };
+Page.belongsTo(User, {as: 'author'})
+
 
 Page.beforeValidate((pageInstance) => {
     pageInstance.slug = generateSlug(pageInstance.title)
-  })
+})
 
 function generateSlug (title) {
     // Removes all non-alphanumeric characters from title
     // And make whitespace underscore
     return title.replace(/\s+/g, '_').replace(/\W/g, '');
-  }
+}
+
+module.exports = {db, Page, User };
